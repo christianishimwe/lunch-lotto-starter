@@ -1,4 +1,5 @@
-const apiKey = "YOUR_API_KEY";
+const apiKey = "USE YOUR OWN API KEY HERE";
+
 const defaultSettings = {
   distance: 0.5,       // Default search radius in miles
   price: "2,3",        // Google Places API uses 1-4 ($ - $$$$)
@@ -165,4 +166,18 @@ document.addEventListener("DOMContentLoaded", async () => {
       await fetchRestaurants(); // Fetch restaurants with the new settings
     });
   });  
+
+  // NEW ADDITION: 2 Show past recommendations
+  document.getElementById("show-past-recommendations").addEventListener("click", () => {
+    chrome.storage.sync.get({ pastRecommendations: [] }, (data) => {
+      const pastRecommendations = data.pastRecommendations;
+      if (pastRecommendations.length === 0) {
+        alert("No past recommendations found.");
+      } else {
+        // Extract the name property from each object
+        const recommendationsList = pastRecommendations.map(r => r.name).join('\n');
+        alert(`Past Recommendations:\n${recommendationsList}`);
+      }
+    });
+  });
 });
