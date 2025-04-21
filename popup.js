@@ -1,9 +1,9 @@
-const apiKey = "USE YOUR OWN API KEY HERE";
+const apiKey = "USE YOUR OWN API KEY";
 
 const defaultSettings = {
   distance: 0.5,       // Default search radius in miles
   price: "2,3",        // Google Places API uses 1-4 ($ - $$$$)
-  dietary: "",         // Empty means no filter (future: vegetarian, gluten-free, etc.)
+  dietary: "",         // Empty means no filter
 };
 // Convert miles to meters (Google Maps API uses meters)
 function milesToMeters(miles) {
@@ -29,7 +29,9 @@ async function fetchRestaurants() {
         const { latitude: lat, longitude: lng } = position.coords;
         const settings = await loadSettings();
   
-        const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=${milesToMeters(settings.distance)}&type=restaurant&keyword=healthy&minprice=${settings.price[0]}&maxprice=${settings.price[2]}&key=${apiKey}`;
+        const dietary = settings.dietary ? `&keyword=${settings.dietary}` : '';
+  
+        const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=${milesToMeters(settings.distance)}&type=restaurant${dietary}&minprice=${settings.price[0]}&maxprice=${settings.price[2]}&key=${apiKey}`;
   
         const response = await fetch(url);
         const data = await response.json();
@@ -147,14 +149,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   const settings = await loadSettings();
   document.getElementById("distance").value = settings.distance;
   document.getElementById("price").value = settings.price;
+  document.getElementById("dietary").value = settings.dietary;
 
   // Save settings
   document.getElementById("save-settings").addEventListener("click", async () => {
     const distance = parseFloat(document.getElementById("distance").value);
     const price = document.getElementById("price").value;
+    const dietary = document.getElementById("dietary").value;
   
     // Save the updated settings
-    chrome.storage.sync.set({ distance, price }, async () => {
+    chrome.storage.sync.set({ distance, price, dietary }, async () => {
       swal({
         title: `Settings saved!`,
         icon: "success",
