@@ -159,6 +159,13 @@ function truncateOption(option) {
       const normalizedDegrees = degrees % 360;
       const selectedIndex = Math.floor(normalizedDegrees / (360 / options.length));
       const selectedOption = options[options.length - 1 - selectedIndex];
+      // NEW ADDITION: Store the selected option
+      chrome.storage.sync.get({ pastRecommendations: [] }, (data) => {
+        //const updatedRecommendations = data.pastRecommendations.concat(selectedOption);
+        const updatedRecommendations = data.pastRecommendations.concat(selectedOption);
+        chrome.storage.sync.set({ pastRecommendations: updatedRecommendations });
+      });
+      ///// END NEW ADDITION /////
         
       // Motivational messages to encourage the user
       const messages = [
@@ -212,7 +219,7 @@ function finalizeWheel() {
   const degrees = (startAngle * 180) / Math.PI + 90; // Convert radians to degrees
   const index = Math.floor((360 - (degrees % 360)) / (360 / options.length)); // Calculate the selected segment
   const selectedOption = options[index];
-  
+
   alert(`Selected option: ${selectedOption}`); // Display the result
 }
 

@@ -175,3 +175,21 @@ background-color:rgb(61, 69, 119);
 .swal-title {
   font-size: 18px !important; /* Customize the title text size */
 }
+
+/* NEW ADDITION: Style for the Show Past Recommendations Button */
+#show-past-recommendations {
+  font-family: 'Poppins', sans-serif;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #28a745; /* Green color for distinction */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 60%;
+  transition: background-color 0.3s ease;
+}
+
+#show-past-recommendations:hover {
+  background-color: #218838; /* Darker green on hover */
+}
