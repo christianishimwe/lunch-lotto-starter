@@ -1,4 +1,4 @@
-const apiKey = "AIzaSyAConXnwU_QgGbOp8k8mt317HTQkTOVWiQ";
+const apiKey = "USE YOUR OWN API KEY";
 
 const defaultSettings = {
   distance: 0.5,       // Default search radius in miles
